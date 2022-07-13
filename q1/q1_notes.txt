@@ -1,0 +1,20 @@
+Notes
+
+Most of the code I generated is in
+demo/csv_parse.py, urls.py, views.py
+demo/urls.py, views.py
+demo/views.py
+demo/static/demo/js/code.js
+demo/templates/demo/base.html
+demo/templates/demo/home.html
+
+
+This is a really dumb Django program. It doesn't fully run for some reason I didn't feel was worth debugging given the notes said pseudocode was okay and things didn't have to run as well as the trying to respect the 2 hour estimate.
+But flow of everything is
+0) the server would have been launched with manage.py runserver
+1) you go to "localhost:8000/home" main page which triggers the Django urls to load the home.html file via views.py/index. home.html has the simple form on the page
+2) user inputs a value and hits the button on the page
+3) the button click triggers the javascript function that does the post to "home/p" with the value from the form
+4) the post hits the Django url which triggers views.py/post_index
+5) that function pulls the user's input out of the request and checks the filename against the results of csv_parse/parse_file and bundles them back up into a JsonResponse for the JS to loop through.
+6) inside the JS's post function it resets the table with some stock headers and loops through the results with values. I might not be exact with my code here. It's been a little bit since I've done the JS side of things, but hopefully the general idea conveys my intent.

@@ -1,0 +1,8 @@
+Notes
+
+The one file is the code
+
+This is a very lightweight flask app.
+I haven't actually created an API (only either generated content for them or did posts/gets on them) so I might not be absolutely correct but I think it's mostly correct.
+I just reused the function I wrote for q1 with changes to meet the output requirement. I debated rewriting parts of Q1 to use the API created here in Q2 but I left it alone.
+The reason Q2 has a try catch but nothing in Q1 is I thought of logging as something the code needed while answering Q3 and decided to put in one case of where it should be used without actually including the logger stuff.

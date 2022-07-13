@@ -1,0 +1,18 @@
+{% extends 'franklin/baseUi2.html' %}
+{% load static %}
+
+{% block content %}
+<div>
+Hello
+<div id="form-div">
+    <form>
+    <label for="search_name">Filename to search for</label>
+    <input type="text" id="search_name" name="search_name">
+    <input type="submit" value="Submit" id="submit">
+    </form>
+</div>
+<div id = "table-div" style="display: none;">
+<table id="demo-table">
+</table>
+</div>
+{% endblock %}

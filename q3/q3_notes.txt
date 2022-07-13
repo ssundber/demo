@@ -1,0 +1,32 @@
+Notes
+
+Sorry for making this a folder along with the others. It just felt weird to break the format for just the "written question" part of the test.
+
+a)
+   a.
+    To handle more files the CSV information should go into some sort of DB that has indexes on filename for quick query response times (maybe also the other fields if we want users to be able to query by filesize or maybe folder path (though that one is much more of a questionable theoretical usecase I admit)) for quicker query times.
+    As noted in the bonus part of Q1, some kind of "sort by" parameter could be included in the DB query to return results already sorted by name or by size in whichever direction, but I suspect you guys were just looking for some slightly fancy JS tables code on that one. A limit parameter to only get the top X results might also be useful if the DB/csvs have an aburd number of files so we don't bog down the webpage as it tries to render 60,000 rows worth of information.
+
+    If for some reason a database isn't allowed then I'd actually use pandas to load and pull out the file info just for the sake of having something easier to work with. If the content of the CSVs is static, the content could be loaded at boot time and just kept around in memory for the life of the program as a speed versus memory use tradeoff.
+
+    If this question really meant "handle more files" in the sense of more "csv" type files then we'd need either user input to select which file to look through (which needs either another UI element or them knowing the filenames), or to loop through one or more folder of files and adjust the output to say what results were from which CSV file.
+
+   b.
+    For more user traffic we'd really want Q1 to invoke the API in Q2. That's so the frontend is doing none of the work and should be really quick to respond (read small and cheaper to scale more instances of the image to support more users). If the API response time is for sure going to be quick enough we could even make an AWS lambda function for the frontend as a better (read: cheaper) option for scaling. The backend would probably need some sort of load balancing thing managing some number of workers that handle the requests as they come in.
+
+b)
+    As mentioned already, this could use a database. With the use case here you could get away with creating some models in Django to hold the file information. The default Django setup used SQLite which isn't all that great since I've run into db locking issues with it in the past so really it should be running on anything else Django supports like MySQL/PostgreSQL or MongoDB. Wherever DB is picked you'd also want a script or process to make adding new file information to the database simple and painless.
+    If a DB really can't be used then you'd probably want to switch to Pandas for extracting content from the CSV file(s).
+    However the data is retrieved, you want the backend Flask app to handle the actual work and have the frontend just generate requests and render the return results.
+
+    User authentication would be important. Django has some simple to add middleware (sessions, authentication to name a few) to make managing user logins easier. Also it's fairly easy to create login pages with Django. You could even use external options like AWS's Cognito stuff in place of letting Django's database handle user accounts.
+    User auth applies to both the frontend as well as the API calls. The backend might want verify user permissions before processing any requests as well.
+    Auth Tokens could be used for verifying command line or other non web based requests. Have Django manage an Auth Token table and use that for user auth stuff in a new function in views.py and have that invoke the API and return the JSON response back to the curl command (or whatever else).
+
+    The Q1 functions went around the Django CRSF token stuff, I had originally hoped to get Q1 working in full and that was a to try and shave off some time spent fussing with the Djangoy bits in templates/views code, but really that shouldn't be done for anything production level.
+
+    Logging. The Python code needs logging. Logs for API being called/the payload, the backend function that the API hit, what the backend generates (probably debug level), what the frontend got back from the API (again maybe debug level). That wasn't an exhaustive list, just some ideas of where logs could be useful.
+
+    Some more HTML for branding/linking to whatever sites and CSS should be added unless this feature is only ever for internal use (in my experience features never stay just for internal use).
+
+    dotenv and a .env to configure all the needed parameters for addresses/ports, location of the CSV file(s)/all DB related info. If not dotenv you could use uwsgi and a .ini file with the parameters in there. I think the easiest thing would be to build docker images and configure the parameters with the build files and just deploy those.

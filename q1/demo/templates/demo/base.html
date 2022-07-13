@@ -1,0 +1,13 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <title>Demo</title>
+    </head>
+    <body id="mainbody">
+    {% block content %}
+    {% endblock %}
+    <script src="{% static 'demo/js/jquery.min.js' %}"></script>
+    <script src="{% static 'demo/js/code.js' %}"></script>
+    </body>
+</html>
