@@ -1,8 +1,8 @@
 Notes
 
 Most of the code I generated is in
-demo/csv_parse.py, urls.py, views.py
-demo/urls.py, views.py
+demo/csv_parse.py
+demo/urls.py
 demo/views.py
 demo/static/demo/js/code.js
 demo/templates/demo/base.html
